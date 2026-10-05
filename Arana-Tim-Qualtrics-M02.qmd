@@ -1,0 +1,159 @@
+---
+title: "Qualtrics M02: Setting Up an Experimental Design"
+author: "Tim Arana"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    embed-resources: true
+editor: visual
+---
+
+# Introduction
+
+This assignment focused on using Qualtrics to develop a basic **between-subjects experimental design**. The original questionnaire included two different advertisement treatments, and the goal was to randomly assign participants to one treatment so that each participant would see only one type of advertisement.
+
+I also revised the questionnaire's social-media usage measurement. The original Q2.2 measured overall social-media usage rather than usage for each platform separately. I redesigned this portion so respondents could select all platforms they currently use and then report their usage separately for the selected platforms using Qualtrics' Carry Forward function.
+
+Finally, I made three additional improvements to the questionnaire to improve response-scale consistency, question wording, and response completeness. The following sections document the changes and explain why each approach improves the original questionnaire.
+
+> **Note:** The screenshots in this report document the Qualtrics settings and final survey flow used to complete the assignment.
+
+# Random Assignment and Survey Flow
+
+The first major task was to convert the original questionnaire into a between-subjects experiment. The two treatment blocks were `social_media_review` and `ads`. Instead of showing both treatments to every participant, the survey was programmed to randomly assign each participant to one of the two conditions.
+
+The randomization was placed immediately after the participant ID was assigned in the Survey Flow. The Randomizer was configured to present **one** of the two embedded-data conditions, with **Evenly Present Elements** selected. The embedded-data value was then used by Branch logic to determine which treatment block the participant received.
+
+After the treatment, the `DV` block remains outside the branches so that participants in both experimental conditions answer the same dependent-variable questions. This creates a comparable structure for evaluating the two advertisement treatments.
+
+## Randomizer Setup
+
+The Randomizer was placed immediately after the embedded-data field containing the participant ID. It was configured to randomly present **1** of the following elements and to **Evenly Present Elements**.
+
+The two randomized elements assign the embedded-data variable `Ad Type` one of two values:
+
+-   `reviewer`
+-   `ads`
+
+This allows Qualtrics to randomly assign participants to one of the two experimental conditions while keeping the expected number of participants in each condition approximately equal.
+
+![](images/survey-flow-1.png)
+
+## Branch Logic and Experimental Conditions
+
+Two Branch elements were used to route participants according to the randomly assigned `Ad Type` value.
+
+The first Branch checks whether:
+
+`Ad Type = reviewer`
+
+When this condition is true, Qualtrics displays the `social_media_review` block.
+
+The second Branch checks whether:
+
+`Ad Type = ads`
+
+When this condition is true, Qualtrics displays the `ads` block.
+
+The `DV` block is positioned outside both branches. Therefore, participants see only one experimental treatment and then continue to the same dependent-variable questions.
+
+![](images/survey-flow-2.png)
+
+# Improvement to Social Media Usage Measurement
+
+The original Q2.2 asked respondents how often they used social media platforms overall. This approach combines all social-media usage into one response, so it does not show how much time a respondent spends on each individual platform.
+
+I revised this portion of the questionnaire using a two-question sequence. First, respondents identify all of the social-media platforms they currently use. Second, the selected platforms are carried forward into a Matrix Table so that respondents can report their daily usage separately for each platform.
+
+This approach provides more detailed platform-level data and follows the Carry Forward method recommended in the assignment.
+
+## Multiple-Selection Platform Question
+
+I added a new multiple-choice question asking:
+
+> **Which of the following social media platforms do you currently use? Select all that apply.**
+
+Respondents can select multiple platforms rather than being limited to the platform they use most often. The choices include Facebook, Instagram, X (Twitter), Snapchat, TikTok, YouTube, LinkedIn, and Other.
+
+The question uses the **Multiple Answer** setting so that the survey captures all platforms used by each respondent. I also applied **Force Response** because the following Carry Forward question depends on these selections. Requiring a response helps prevent missing platform-level usage data.
+
+![](images/platform-selection.png)
+
+## Carry Forward Usage Question
+
+The next question uses a Matrix Table to ask:
+
+> **Approximately how much time do you spend on each of the following social media platforms per day?**
+
+Instead of manually displaying every platform to every respondent, I used **Carry Forward Statements → Selected Choices** from the previous platform-selection question.
+
+For example, if a respondent selects Instagram, TikTok, and YouTube, only those three platforms are displayed as rows in the usage Matrix Table. The respondent can then provide a separate daily usage estimate for each selected platform.
+
+The response categories are:
+
+-   1 hour or less per day
+-   1–2 hours per day
+-   3–4 hours per day
+-   4–5 hours per day
+-   5 or more hours per day
+
+This design improves the original Q2.2 because it produces separate usage information for each platform while avoiding irrelevant questions about platforms that a respondent does not use.
+
+![](images/carry-forward.png)
+
+# Three Additional Questionnaire Improvements
+
+In addition to the experimental design and platform-specific usage measurement, I made three additional changes to improve the questionnaire. These changes focused on response-scale design, question wording, and response completeness.
+
+## Improvement 1: Balanced Response Scale
+
+Q2.3 asks about the likelihood that a respondent will follow a brand's social media account. I revised the original response choices to create a clearer and more balanced five-point likelihood scale:
+
+-   Very likely
+-   Somewhat likely
+-   Neither likely nor unlikely
+-   Somewhat unlikely
+-   Very unlikely
+
+The original scale used less consistent labels such as "Likely," "Neutral," and "Unlikely." The revised scale uses parallel wording on both sides of the midpoint. "Neither likely nor unlikely" also describes the midpoint more precisely than simply using "Neutral." This makes the response options easier to interpret and provides a more symmetrical measurement scale.
+
+## Improvement 2: Clearer Question Wording
+
+I revised Q2.4 from:
+
+> **What is the likelihood that you will remember the name of the brand you saw on social media platforms?**
+
+to:
+
+> **How likely are you to remember the name of a brand you see on social media?**
+
+The revised question is shorter and easier to read. It also avoids assuming that the respondent previously saw one particular brand on social media. I used the same balanced five-point likelihood scale as Q2.3 so that similar questions use consistent response options throughout the questionnaire.
+
+![](images/q23-q24-improvements.png)
+
+## Improvement 3: Required Platform Selection
+
+I applied **Force Response** to the new multiple-selection platform question.
+
+This question is important because its selected choices determine which platforms appear in the following Carry Forward Matrix Table. If a respondent skipped the platform-selection question, there would be no selected platforms to carry forward, which could result in missing or unusable platform-level usage information.
+
+Requiring a response therefore improves data completeness and ensures that the two-question sequence functions as intended.
+
+![](images/platform-selection.png)
+
+# Conclusion
+
+This assignment demonstrated how Qualtrics can be used to implement an experimental design and improve questionnaire quality. The Randomizer, embedded data, and Branch functions created a between-subjects experiment in which participants were randomly assigned to one of two advertisement conditions while receiving the same dependent-variable questions afterward.
+
+The Carry Forward function also improved the measurement of social-media usage by collecting separate usage estimates for each platform a respondent actually uses. Finally, revising response scales, improving question wording, and requiring an important source question demonstrated how smaller questionnaire-design decisions can improve clarity and data quality.
+
+Overall, the assignment showed that effective survey programming requires both technical Qualtrics skills and careful attention to how respondents experience and interpret the questionnaire.
+
+# Appendix: Publication Links
+
+- [GitHub Repository](https://github.com/tarana7/qualtrics-m02)
+
+- [Published Qualtrics M02 Report](https://tarana7.github.io/qualtrics-m02/)
